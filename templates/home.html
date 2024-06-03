@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script>
+        async function addToPlaylist(movie) {
+            const response = await fetch('/add_to_playlist', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ movie: movie })
+            });
+            const result = await response.json();
+            alert(result.message);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Movie Search</h1>
+        <form method="post" action="/">
+            <input type="text" name="query" placeholder="Search for a movie..." required>
+            <button type="submit">Search</button>
+        </form>
+
+        {% if movies_data %}
+            <ul class="movie-list">
+                {% for movie in movies_data['results'] %}
+                    <li class="movie-item">
+                        <img src="{{ movie['image_url'] }}" alt="{{ movie['name'] }}">
+                        <div class="movie-details">
+                            <h2>{{ movie['name'] }}</h2>
+                            <button onclick='addToPlaylist({{ movie | tojson }})'>Add to Playlist</button>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <a href="/playlists/default">View Playlist</a>
+    </div>
+</body>
+</html>

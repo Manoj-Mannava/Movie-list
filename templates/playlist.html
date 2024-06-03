@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ playlist_name }} Playlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ playlist_name }} Playlist</h1>
+        <ul class="movie-list">
+            {% for movie in playlist %}
+                <li class="movie-item">
+                    <img src="{{ movie['image_url'] }}" alt="{{ movie['name'] }}">
+                    <div class="movie-details">
+                        <h2>{{ movie.name }}</h2>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="/">Back to Home</a>
+    </div>
+</body>
+</html>
